@@ -12,7 +12,7 @@ interface AuthContextType {
   currentUser: User | null;
   loading: boolean;
   login: (email: string, pass: string) => Promise<FirebaseUser | null>;
-  signup: (username: string, email: string, pass: string, profile: Omit<UserProfile, 'bio'>) => Promise<FirebaseUser | null>;
+  signup: (username: string, email: string, pass: string, profile: Omit<UserProfile, 'bio' | 'subjects'>) => Promise<FirebaseUser | null>;
   logout: () => void;
   updateCurrentUser: (user: User) => Promise<void>;
 }
@@ -49,7 +49,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return userCredential.user;
   }, []);
   
-  const signup = useCallback(async (username: string, email: string, pass: string, profile: Omit<UserProfile, 'bio'>): Promise<FirebaseUser | null> => {
+  const signup = useCallback(async (username: string, email: string, pass: string, profile: Omit<UserProfile, 'bio' | 'subjects'>): Promise<FirebaseUser | null> => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
       const firebaseUser = userCredential.user;
       if (firebaseUser) {
@@ -61,6 +61,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           createdAt: new Date().toISOString(),
           profile: {
             ...profile,
+            subjects: [...new Set([...profile.expertise])],
             bio: `Hi, I'm ${username}. Let's study together!`,
           }
         };

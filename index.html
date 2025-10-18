@@ -39,10 +39,13 @@
               ring: 'hsl(var(--ring))',
             },
             borderRadius: {
-              lg: `0.5rem`,
-              md: `calc(0.5rem - 2px)`,
-              sm: `calc(0.5rem - 4px)`,
+              lg: `0.75rem`,
+              md: `calc(0.75rem - 2px)`,
+              sm: `calc(0.75rem - 4px)`,
             },
+            boxShadow: {
+                'primary-glow': '0 0 15px 0 hsl(var(--primary) / 0.5)',
+            }
           },
         }
       }
@@ -50,8 +53,10 @@
     <style>
       :root {
         --background: 224 71% 4%;
-        --background-glow: 240 50% 15%;
+        --background-glow-1: 260 90% 30%;
+        --background-glow-2: 240 50% 15%;
         --foreground: 210 40% 98%;
+        --card-glass: 224 71% 9%; /* Slightly lighter for the glass effect */
         --card: 224 71% 6%;
         --card-foreground: 210 40% 98%;
         --popover: 222.2 84% 4.9%;
@@ -66,14 +71,68 @@
         --accent-foreground: 210 40% 98%;
         --destructive: 0 62.8% 30.6%;
         --destructive-foreground: 210 40% 98%;
-        --border: 217.2 32.6% 12%;
+        --border: 217.2 32.6% 14%;
         --input: 217.2 32.6% 12%;
         --ring: 260 85% 75%;
       }
       body {
         background-color: hsl(var(--background));
-        background-image: radial-gradient(circle at top left, hsl(var(--background-glow)) 0%, transparent 35%);
+        background-image: radial-gradient(circle at top left, hsl(var(--background-glow-1) / 0.15) 0%, transparent 35%),
+                          radial-gradient(circle at bottom right, hsl(var(--background-glow-2) / 0.1) 0%, transparent 40%);
         background-attachment: fixed;
+      }
+       /* Glassmorphism class */
+      .glass-card {
+        background-color: hsl(var(--card-glass) / 0.5);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid hsl(var(--border));
+      }
+      .form-input {
+        background-color: hsl(var(--input));
+        border: 1px solid hsl(var(--border));
+        border-radius: 0.5rem;
+        transition: all 0.2s ease-in-out;
+      }
+      .form-input:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+      }
+      .primary-btn {
+        background-color: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+        border-radius: 0.5rem;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+      }
+      .primary-btn:hover {
+        opacity: 0.9;
+        box-shadow: var(--tw-shadow-primary-glow);
+      }
+      .secondary-btn {
+        background-color: hsl(var(--secondary));
+        color: hsl(var(--secondary-foreground));
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: background-color 0.2s ease-in-out;
+      }
+      .secondary-btn:hover {
+        background-color: hsl(var(--muted));
+      }
+      .tag-btn {
+        background-color: hsl(var(--secondary));
+        border-radius: 9999px;
+        transition: all 0.2s ease-in-out;
+        border: 1px solid transparent;
+      }
+      .tag-btn:hover {
+        border-color: hsl(var(--primary) / 0.5);
+        color: hsl(var(--foreground));
+      }
+      .tag-btn-active {
+        background-color: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+        font-weight: 500;
       }
     </style>
   <script type="importmap">

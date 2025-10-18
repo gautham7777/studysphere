@@ -1,5 +1,6 @@
 
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
+import { QuizQuestion } from '../types';
 
 const API_KEY = process.env.API_KEY;
 
@@ -51,5 +52,70 @@ export const generateStudyPlan = async (
   } catch (error) {
     console.error("Error generating study plan:", error);
     return "There was an error generating the study plan. Please try again.";
+  }
+};
+
+export const generateQuizQuestions = async (
+  subject: string,
+  topic: string,
+  numQuestions: number = 5
+): Promise<QuizQuestion[]> => {
+  if (!API_KEY) {
+    // Return mock questions if API key is not available
+    return Promise.resolve(
+      Array.from({ length: numQuestions }, (_, i) => ({
+        question: `This is mock question ${i + 1} for ${topic}?`,
+        options: ['Option A', 'Option B', 'Correct Answer', 'Option D'].sort(() => Math.random() - 0.5),
+        correctAnswer: 'Correct Answer',
+      }))
+    );
+  }
+
+  const model = "gemini-2.5-flash";
+  const prompt = `
+    Generate a JSON array of ${numQuestions} multiple-choice quiz questions about the topic "${topic}" within the subject "${subject}".
+    Each question object must have three properties:
+    1. "question": A string containing the question text.
+    2. "options": An array of 4 strings representing the possible answers. One of these must be the correct answer.
+    3. "correctAnswer": A string that is an exact match to one of the strings in the "options" array.
+    Do not include any other text, explanations, or markdown formatting outside of the JSON array.
+  `;
+
+  try {
+    const response = await ai.models.generateContent({
+      model,
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              question: { type: Type.STRING },
+              options: {
+                type: Type.ARRAY,
+                items: { type: Type.STRING },
+              },
+              correctAnswer: { type: Type.STRING },
+            },
+            required: ["question", "options", "correctAnswer"],
+          },
+        },
+      },
+    });
+
+    const jsonText = response.text.trim();
+    const questions = JSON.parse(jsonText);
+    
+    // Basic validation
+    if (!Array.isArray(questions) || questions.some(q => !q.question || !q.options || !q.correctAnswer || q.options.length < 2)) {
+        throw new Error("Invalid JSON format for quiz questions.");
+    }
+
+    return questions;
+  } catch (error) {
+    console.error("Error generating quiz questions:", error);
+    throw new Error("Failed to generate quiz questions from AI. Please try again.");
   }
 };

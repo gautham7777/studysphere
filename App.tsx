@@ -16,8 +16,9 @@ import GroupPage from './pages/GroupPage.tsx';
 import Header from './components/Header';
 // FIX: Added file extensions to imports
 import { ChatId } from './types.ts';
+import HelpRequestsPage from './pages/HelpRequestsPage';
 
-type Page = 'dashboard' | 'find' | 'chat' | 'planner' | 'profile' | 'group';
+type Page = 'dashboard' | 'find' | 'chat' | 'planner' | 'profile' | 'group' | 'help';
 
 const App: React.FC = () => {
   const { currentUser } = useAuth();
@@ -64,6 +65,8 @@ const App: React.FC = () => {
         return <ProfilePage userId={viewingUserId || currentUser.id} viewProfile={viewProfile}/>;
       case 'group':
         return activeGroupId ? <GroupPage groupId={activeGroupId} openChat={openChat} viewProfile={viewProfile} /> : <DashboardPage openChat={openChat} openGroup={openGroup} viewProfile={viewProfile}/>;
+      case 'help':
+        return <HelpRequestsPage openChat={openChat} viewProfile={viewProfile} />;
       default:
         return <DashboardPage openChat={openChat} openGroup={openGroup} viewProfile={viewProfile} />;
     }

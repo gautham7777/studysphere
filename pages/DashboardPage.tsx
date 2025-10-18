@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 // FIX: Added file extensions to imports
@@ -69,26 +68,26 @@ const DashboardPage: React.FC<DashboardProps> = ({ openChat, openGroup, viewProf
 
     return (
         <div className="animate-fade-in">
-            <h1 className="text-4xl font-bold mb-2">Welcome, {currentUser.username}!</h1>
-            <p className="text-muted-foreground mb-8">Here's a look at your study sphere.</p>
+            <h1 className="text-5xl font-bold mb-2">Welcome, {currentUser.username}!</h1>
+            <p className="text-muted-foreground text-lg mb-10">Here's a look at your study sphere.</p>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Left Column */}
-                <div className="lg:col-span-2 space-y-6">
+                <div className="lg:col-span-2 space-y-8">
                     {/* Buddy Requests */}
                     {requests.length > 0 && (
-                        <div className="bg-card border border-border rounded-lg p-6">
-                            <h2 className="text-2xl font-semibold mb-4">Buddy Requests</h2>
+                        <div className="glass-card rounded-lg p-6">
+                            <h2 className="text-3xl font-semibold mb-5">Buddy Requests</h2>
                             <div className="space-y-4">
                                 {requests.map(req => senders[req.senderId] && (
-                                    <div key={req.id} className="flex items-center justify-between bg-secondary p-3 rounded-md">
+                                    <div key={req.id} className="flex items-center justify-between bg-secondary/50 p-3 rounded-md">
                                         <div className="flex items-center cursor-pointer" onClick={() => viewProfile(req.senderId)}>
                                             <Avatar user={senders[req.senderId]} size="md" />
-                                            <span className="ml-3 font-medium">{senders[req.senderId].username}</span>
+                                            <span className="ml-4 font-medium text-lg">{senders[req.senderId].username}</span>
                                         </div>
                                         <div className="flex space-x-2">
-                                            <button onClick={() => handleRequestResponse(req.id, 'accepted')} className="p-2 bg-green-500/20 text-green-400 rounded-full hover:bg-green-500/40 transition-colors"><Check className="w-5 h-5"/></button>
-                                            <button onClick={() => handleRequestResponse(req.id, 'declined')} className="p-2 bg-red-500/20 text-red-400 rounded-full hover:bg-red-500/40 transition-colors"><X className="w-5 h-5"/></button>
+                                            <button onClick={() => handleRequestResponse(req.id, 'accepted')} className="p-2 bg-green-500/20 text-green-400 rounded-full hover:bg-green-500/40 transition-colors"><Check className="w-6 h-6"/></button>
+                                            <button onClick={() => handleRequestResponse(req.id, 'declined')} className="p-2 bg-red-500/20 text-red-400 rounded-full hover:bg-red-500/40 transition-colors"><X className="w-6 h-6"/></button>
                                         </div>
                                     </div>
                                 ))}
@@ -97,10 +96,10 @@ const DashboardPage: React.FC<DashboardProps> = ({ openChat, openGroup, viewProf
                     )}
                     
                     {/* Study Groups */}
-                    <div className="bg-card border border-border rounded-lg p-6">
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-2xl font-semibold">Your Study Groups</h2>
-                            <button onClick={() => setShowCreateGroup(!showCreateGroup)} className="p-2 bg-primary/20 text-primary rounded-full hover:bg-primary/40 transition-colors"><Plus className="w-5 h-5"/></button>
+                    <div className="glass-card rounded-lg p-6">
+                        <div className="flex justify-between items-center mb-5">
+                            <h2 className="text-3xl font-semibold">Your Study Groups</h2>
+                            <button onClick={() => setShowCreateGroup(!showCreateGroup)} className="p-2 bg-primary/20 text-primary rounded-full hover:bg-primary/40 transition-colors"><Plus className="w-6 h-6"/></button>
                         </div>
                         {showCreateGroup && (
                             <div className="flex space-x-2 mb-4">
@@ -109,41 +108,41 @@ const DashboardPage: React.FC<DashboardProps> = ({ openChat, openGroup, viewProf
                                     value={newGroupName}
                                     onChange={(e) => setNewGroupName(e.target.value)}
                                     placeholder="New group name"
-                                    className="flex-grow px-4 py-2 bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                                    className="flex-grow px-4 py-2 form-input"
                                 />
-                                <button onClick={handleCreateGroup} className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90">Create</button>
+                                <button onClick={handleCreateGroup} className="px-4 py-2 primary-btn">Create</button>
                             </div>
                         )}
                         <div className="space-y-3">
                            {groups.length > 0 ? groups.map(group => (
-                               <div key={group.id} className="flex items-center justify-between bg-secondary p-3 rounded-md">
+                               <div key={group.id} className="flex items-center justify-between bg-secondary/50 p-3 rounded-md">
                                    <div className="flex items-center">
-                                       <div className="w-10 h-10 rounded-full bg-indigo-500/30 flex items-center justify-center"><Users className="w-5 h-5 text-indigo-400"/></div>
-                                       <span className="ml-3 font-medium">{group.name}</span>
+                                       <div className="w-12 h-12 rounded-full bg-indigo-500/30 flex items-center justify-center"><Users className="w-6 h-6 text-indigo-400"/></div>
+                                       <span className="ml-4 font-medium text-lg">{group.name}</span>
                                    </div>
                                    <div className="flex items-center space-x-2">
-                                       <button onClick={() => openChat({type: 'group', groupId: group.id})} className="p-2 rounded-full hover:bg-accent"><MessageSquare className="w-5 h-5 text-muted-foreground"/></button>
-                                       <button onClick={() => openGroup(group.id)} className="px-4 py-1.5 text-sm bg-primary text-primary-foreground rounded-full hover:opacity-90">Workspace</button>
+                                       <button onClick={() => openChat({type: 'group', groupId: group.id})} className="p-3 rounded-full hover:bg-accent"><MessageSquare className="w-5 h-5 text-muted-foreground"/></button>
+                                       <button onClick={() => openGroup(group.id)} className="px-5 py-2 text-sm primary-btn">Workspace</button>
                                    </div>
                                </div>
-                           )) : <p className="text-muted-foreground text-sm">You are not a part of any groups yet.</p>}
+                           )) : <p className="text-muted-foreground">You are not a part of any groups yet.</p>}
                         </div>
                     </div>
                 </div>
 
                 {/* Right Column (Buddies) */}
-                <div className="bg-card border border-border rounded-lg p-6">
-                    <h2 className="text-2xl font-semibold mb-4">Buddies</h2>
+                <div className="glass-card rounded-lg p-6">
+                    <h2 className="text-3xl font-semibold mb-5">Buddies</h2>
                     <div className="space-y-4">
                         {buddies.length > 0 ? buddies.map(buddy => (
-                             <div key={buddy.id} className="flex items-center justify-between">
+                             <div key={buddy.id} className="flex items-center justify-between p-2 rounded-md hover:bg-secondary/50">
                                  <div className="flex items-center cursor-pointer" onClick={() => viewProfile(buddy.id)}>
                                      <Avatar user={buddy} size="md" />
-                                     <span className="ml-3 font-medium">{buddy.username}</span>
+                                     <span className="ml-4 font-medium text-lg">{buddy.username}</span>
                                  </div>
-                                 <button onClick={() => openChat({ type: 'dm', userId: buddy.id })} className="p-2 rounded-full hover:bg-accent"><MessageSquare className="w-5 h-5 text-muted-foreground"/></button>
+                                 <button onClick={() => openChat({ type: 'dm', userId: buddy.id })} className="p-3 rounded-full hover:bg-accent"><MessageSquare className="w-5 h-5 text-muted-foreground"/></button>
                              </div>
-                        )) : <p className="text-muted-foreground text-sm">You haven't added any buddies yet. Go find some!</p>}
+                        )) : <p className="text-muted-foreground">You haven't added any buddies yet. Go find some!</p>}
                     </div>
                 </div>
 

@@ -2,9 +2,9 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import Avatar from './Avatar';
-import { BookOpen, LogOut, MessageSquare, Search, User as UserIcon, Users } from './icons/Icons';
+import { BookOpen, LogOut, MessageSquare, Search, User as UserIcon, Users, HelpCircle } from './icons/Icons';
 
-type Page = 'dashboard' | 'find' | 'chat' | 'planner' | 'profile' | 'group';
+type Page = 'dashboard' | 'find' | 'chat' | 'planner' | 'profile' | 'group' | 'help';
 
 interface HeaderProps {
   navigateTo: (page: Page) => void;
@@ -47,6 +47,12 @@ const Header: React.FC<HeaderProps> = ({ navigateTo, currentPage }) => {
             label="Find Buddies"
             isActive={currentPage === 'find'}
             onClick={() => navigateTo('find')}
+          />
+           <NavItem
+            icon={<HelpCircle className="w-full h-full" />}
+            label="Help Requests"
+            isActive={currentPage === 'help'}
+            onClick={() => navigateTo('help')}
           />
           <NavItem
             icon={<MessageSquare className="w-full h-full" />}

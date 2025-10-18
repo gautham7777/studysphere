@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import * as DB from '../services/mockDb';
@@ -80,56 +79,56 @@ const GroupPage: React.FC<GroupPageProps> = ({ groupId, openChat, viewProfile })
 
     return (
         <div className="animate-fade-in">
-            <div className="bg-card border border-border rounded-lg p-6 mb-6">
+            <div className="glass-card rounded-lg p-8 mb-8">
                 <div className="flex justify-between items-start">
                     <div>
-                        <h1 className="text-4xl font-bold">{group.name}</h1>
-                        <p className="text-muted-foreground mt-1">{group.description || 'A space for focused collaboration.'}</p>
+                        <h1 className="text-5xl font-bold">{group.name}</h1>
+                        <p className="text-muted-foreground text-lg mt-1">{group.description || 'A space for focused collaboration.'}</p>
                     </div>
-                    <button onClick={() => openChat({type: 'group', groupId: group.id})} className="flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90">
+                    <button onClick={() => openChat({type: 'group', groupId: group.id})} className="flex items-center px-6 py-3 primary-btn">
                         <MessageSquare className="w-5 h-5 mr-2"/>
                         <span>Group Chat</span>
                     </button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 space-y-6">
-                    <div className="bg-card border border-border rounded-lg p-6">
-                        <h2 className="text-2xl font-semibold mb-4">Shared Study Plans</h2>
-                        <div className="space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2 space-y-8">
+                    <div className="glass-card rounded-lg p-8">
+                        <h2 className="text-3xl font-semibold mb-6">Shared Study Plans</h2>
+                        <div className="space-y-6">
                             {sharedPlans.length > 0 ? sharedPlans.map(plan => (
-                                <div key={plan.id} className="bg-secondary p-4 rounded-md">
-                                    <h3 className="font-bold text-lg mb-2">{plan.title}</h3>
+                                <div key={plan.id} className="bg-secondary/50 p-6 rounded-md">
+                                    <h3 className="font-bold text-xl mb-3">{plan.title}</h3>
                                     <MarkdownRenderer content={plan.details} />
                                 </div>
                             )) : <p className="text-muted-foreground">No study plans have been shared yet.</p>}
                         </div>
                     </div>
                 </div>
-                <div className="bg-card border border-border rounded-lg p-6">
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-semibold">Members ({members.length})</h2>
-                        <button onClick={() => setShowAddMember(!showAddMember)} className="p-2 bg-primary/20 text-primary rounded-full hover:bg-primary/40"><Plus className="w-5 h-5"/></button>
+                <div className="glass-card rounded-lg p-8">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-3xl font-semibold">Members ({members.length})</h2>
+                        <button onClick={() => setShowAddMember(!showAddMember)} className="p-2 bg-primary/20 text-primary rounded-full hover:bg-primary/40"><Plus className="w-6 h-6"/></button>
                     </div>
                     {showAddMember && (
-                        <div className="mb-4">
-                            <h3 className="text-sm font-semibold mb-2">Add a buddy to the group:</h3>
-                            <div className="space-y-2 max-h-40 overflow-y-auto">
+                        <div className="mb-4 bg-secondary/50 p-4 rounded-md">
+                            <h3 className="text-md font-semibold mb-3">Add a buddy to the group:</h3>
+                            <div className="space-y-2 max-h-48 overflow-y-auto">
                                 {buddiesNotInGroup.length > 0 ? buddiesNotInGroup.map(buddy => (
-                                    <button key={buddy.id} onClick={() => handleAddMember(buddy.id)} className="w-full flex items-center p-2 rounded-md hover:bg-secondary text-left">
+                                    <button key={buddy.id} onClick={() => handleAddMember(buddy.id)} className="w-full flex items-center p-2 rounded-md hover:bg-accent text-left">
                                         <Avatar user={buddy} size="sm" />
-                                        <span className="ml-2">{buddy.username}</span>
+                                        <span className="ml-3">{buddy.username}</span>
                                     </button>
-                                )) : <p className="text-xs text-muted-foreground">All your buddies are already in this group.</p>}
+                                )) : <p className="text-sm text-muted-foreground">All your buddies are already in this group.</p>}
                             </div>
                         </div>
                     )}
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                         {members.map(member => (
-                            <div key={member.id} className="flex items-center cursor-pointer" onClick={() => viewProfile(member.id)}>
+                            <div key={member.id} className="flex items-center cursor-pointer p-2 rounded-md hover:bg-secondary/50" onClick={() => viewProfile(member.id)}>
                                 <Avatar user={member} size="md" />
-                                <span className="ml-3 font-medium">{member.username}</span>
+                                <span className="ml-4 font-medium text-lg">{member.username}</span>
                             </div>
                         ))}
                     </div>

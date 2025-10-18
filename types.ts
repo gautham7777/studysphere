@@ -18,7 +18,6 @@ export interface UserProfile {
   bio: string;
   subjects: Subject[];
   expertise: Subject[];
-  needsHelp: Subject[];
   learningStyle: LearningStyle;
   availability: Availability[];
   studyMethods: StudyMethod[];
@@ -53,12 +52,33 @@ export interface StudyGroup {
 
 export type ChatId = { type: 'dm'; userId: string } | { type: 'group'; groupId: string };
 
+export interface HelpRequest {
+    id: string;
+    requesterId: string;
+    subject: Subject;
+    topic: string;
+    createdAt: string; // ISO string
+    status: 'open' | 'closed';
+}
+
+export interface QuizQuestion {
+    question: string;
+    options: string[];
+    correctAnswer: string;
+}
+
+export type QuizEvent = 
+    | { type: 'start'; data: { subject: string; topic: string; startedBy: string; } }
+    | { type: 'question'; data: { question: QuizQuestion; questionIndex: number; totalQuestions: number; } }
+    | { type: 'end'; data: { scores: { userId: string; username: string, score: number }[] } };
+
 export interface Message {
     id: string;
-    chatId: string; // can be a compound key like `dm_${userId1}_${userId2}` or `group_${groupId}`
-    senderId: string;
-    content: string;
+    chatId: string; 
+    senderId: string; // 'system' for quiz events
+    content: string; // Main content or description for events
     createdAt: string; // ISO string
+    quizEvent?: QuizEvent;
 }
 
 export interface StudyPlan {
