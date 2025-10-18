@@ -3,20 +3,24 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { useAuth } from './context/AuthContext';
 // FIX: Added file extensions to imports
 import AuthPage from './pages/AuthPage.tsx';
-import DashboardPage from './pages/DashboardPage';
 // FIX: Added file extensions to imports
-import FindPage from './pages/FindPage';
+import DashboardPage from './pages/DashboardPage.tsx';
+// FIX: Added file extensions to imports
+import FindPage from './pages/FindPage.tsx';
 // FIX: Added file extensions to imports
 import ChatPage from './pages/ChatPage.tsx';
-import PlannerPage from './pages/PlannerPage';
+// FIX: Added file extensions to imports
+import PlannerPage from './pages/PlannerPage.tsx';
 // FIX: Added file extensions to imports
 import ProfilePage from './pages/ProfilePage.tsx';
 // FIX: Added file extensions to imports
 import GroupPage from './pages/GroupPage.tsx';
-import Header from './components/Header';
+// FIX: Added file extensions to imports
+import Header from './components/Header.tsx';
 // FIX: Added file extensions to imports
 import { ChatId } from './types.ts';
-import HelpRequestsPage from './pages/HelpRequestsPage';
+// FIX: Added file extensions to imports
+import HelpRequestsPage from './pages/HelpRequestsPage.tsx';
 
 type Page = 'dashboard' | 'find' | 'chat' | 'planner' | 'profile' | 'group' | 'help';
 

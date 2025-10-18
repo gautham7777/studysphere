@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { generateStudyPlan } from '../services/geminiService';
+// FIX: Added file extension to import
+import { generateStudyPlan } from '../services/geminiService.ts';
 // FIX: Added file extensions to imports
 import { SUBJECTS } from '../constants.ts';
 // FIX: Added file extensions to imports
